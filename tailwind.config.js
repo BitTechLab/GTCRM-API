@@ -3,9 +3,10 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./resources/**/*.blade.php",
-    "./resources/**/*.js",
-    "./resources/**/*.vue",
+    './resources/**/*.blade.php',
+    './resources/**/*.js',
+    './resources/**/*.vue',
+    './node_modules/flowbite/**/*.js'
   ],
   darkMode: 'class',
   theme: {
@@ -312,5 +313,10 @@ export default {
       }
     }
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    // require("daisyui"),
+    require('flowbite/plugin')({
+      charts: true
+    })
+  ]
 }

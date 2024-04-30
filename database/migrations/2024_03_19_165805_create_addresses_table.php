@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('type', ['customer', 'lead', 'contact', 'company', 'sale']);
-            $table->integer('reference_id');
-
+            $table->morphs('reference');
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
             $table->string('city')->nullable();
@@ -30,8 +28,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->softDeletes();
-
-            $table->index(['type', 'reference_id']);
         });
     }
 

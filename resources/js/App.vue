@@ -9,9 +9,9 @@ import DefaultLayout from './layouts/DefaultLayout.vue'
 <template>
     <!-- <NavbarView /> -->
 
-    <DefaultLayout>
+    <!-- <DefaultLayout> -->
         <RouterView />
-    </DefaultLayout>
+    <!-- </DefaultLayout> -->
 </template>
 
 <style scoped></style>

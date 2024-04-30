@@ -25,7 +25,8 @@ class StoreCustomerRequest extends BaseApiRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:customers,email'
+            'email' => 'required|string|email|max:255|unique:customers,email',
+            'status' => 'required|in:active,pending,suspended',
         ];
     }
 
