@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UpdateCustomerRequest extends BaseApiRequest
 {
@@ -23,7 +24,8 @@ class UpdateCustomerRequest extends BaseApiRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:customers,email'            
+            'email' => 'required|string|email|max:255|unique:customers,email,' . $this->route('customer')?->id ?? 0,
+            'status' => 'required|in:active,pending,suspended',
         ];
     }
 }

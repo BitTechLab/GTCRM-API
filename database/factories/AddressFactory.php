@@ -18,7 +18,7 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => Arr::random(['customer', 'lead', 'contact', 'company', 'sale']),
+            'reference_type' => Arr::random(['customer', 'lead', 'contact', 'company', 'sale']),
             'reference_id' => $this->faker->numberBetween(1, 100),
             'address_1' => $this->faker->streetAddress(),
             'address_2' => $this->faker->streetAddress(),

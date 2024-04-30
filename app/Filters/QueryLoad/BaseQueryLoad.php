@@ -4,6 +4,7 @@ namespace App\Filters\QueryLoad;
 
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class BaseQueryLoad
@@ -13,7 +14,7 @@ class BaseQueryLoad
     {
     }
 
-    public function process(Builder $queryBuilder, Closure $next, string $loadKey)
+    public function process(Builder $queryBuilder, Closure $next, string $loadKey): Builder
     {
         if ($this->request->has(config('repository.load_param'))) {
             $loadKeys = $this->request->get(config('repository.load_param'));
