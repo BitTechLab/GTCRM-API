@@ -1,29 +1,32 @@
 <script setup lang="ts">
-import HeaderArea from '@/components/Header/HeaderArea.vue'
-import SidebarArea from '@/components/Sidebar/SidebarArea.vue'
+import { onMounted } from 'vue';
+import NavbarArea from './NavbarArea.vue';
+import SidebarArea from './SidebarArea.vue';
+import router from '../router';
+
+onMounted(() => {
+  if (!window.authData?.user) {
+    router.push('/login');
+  }
+});
 </script>
 
 <template>
-  <!-- ===== Page Wrapper Start ===== -->
   <div class="flex h-screen overflow-hidden">
-    <!-- ===== Sidebar Start ===== -->
     <SidebarArea />
-    <!-- ===== Sidebar End ===== -->
 
-    <!-- ===== Content Area Start ===== -->
     <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-      <!-- ===== Header Start ===== -->
-      <HeaderArea />
-      <!-- ===== Header End ===== -->
+      <NavbarArea />
 
-      <!-- ===== Main Content Start ===== -->
       <main>
-        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-          <slot></slot>
+        <div class="p-5 sm:ml-64">
+          <div class="p-4 border border-white bg-white rounded-lg dark:border-gray-500 mt-14">
+            <router-view></router-view>
+          </div>
         </div>
       </main>
-      <!-- ===== Main Content End ===== -->
+
     </div>
+
   </div>
-  <!-- ===== Page Wrapper End ===== -->
 </template>

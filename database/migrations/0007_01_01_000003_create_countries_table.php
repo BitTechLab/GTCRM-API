@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
+
             $table->string('name')->index();
             $table->string('code')->index();
+            
             $table->timestamps();
 
             $table->softDeletes();

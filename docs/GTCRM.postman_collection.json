@@ -106,7 +106,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"abc\",\r\n    \"email\": \"test1297980000009@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Test One\",\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,7 +154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"test12@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -170,6 +170,95 @@
 								"api",
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "elasticsearch",
+			"item": [
+				{
+					"name": "https://localhost:9200/?pretty",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "elastic",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "iWx5U4=RzpuHk=OaLGFQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:9200/?pretty",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "pretty",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:9200/?pretty Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "elastic",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "iWx5U4=RzpuHk=OaLGFQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Snow Crash\",\r\n    \"author\": \"Neal Stephenson\",\r\n    \"release_date\": \"1992-06-01\",\r\n    \"page_count\": 470\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:9200/books/_doc",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"books",
+								"_doc"
 							]
 						}
 					},

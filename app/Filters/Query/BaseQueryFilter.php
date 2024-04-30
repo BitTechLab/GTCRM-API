@@ -15,7 +15,7 @@ class BaseQueryFilter
     {
     }
 
-    public function process(QueryFilterDto $queryFilterDto, Closure $next, string $fieldKey, bool $shouldSearch = false)
+    public function process(QueryFilterDto $queryFilterDto, Closure $next, string $fieldKey, bool $shouldSearch = false): QueryFilterDto
     {
         // Check if any filter passes for the field name
         if (Arr::has($queryFilterDto->filter, $fieldKey) || $this->request->has($fieldKey)) {

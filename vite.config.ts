@@ -32,14 +32,16 @@ export default defineConfig({
         //     },
         // }),
     ],
-    // server: {
-    //     hmr: {
-    //         host: "localhost",
-    //     },
-    //     watch: {
-    //         usePolling: true,
-    //     },
-    // },
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: "localhost",
+        },
+        // watch: {
+        //     usePolling: true,
+        //     // interval: 100,
+        // },
+    },
     resolve: {
         alias: {
           '@': fileURLToPath(new URL('./resources/js', import.meta.url))

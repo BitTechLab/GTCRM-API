@@ -24,18 +24,22 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): CustomerCollection
     {
-        $orderBy = $request->get('order_by', config('repository.defaults.order_by'));
-        $orderDirection = $request->get('order_direction', config('repository.defaults.order_direction'));
+        // test code. remove it as soon as you see it. you can blame webhkp for this(as he forgot to remove this line)
+        $this->customerRepository->create(CustomerDto::fromArray([
+            'name' => 'test name - ' . rand(),
+            'email' => rand() . '-test@name.com',
+            'status' => 'active',
+        ]));
 
-        return new CustomerCollection($this->customerRepository->getByFilter([], $orderBy, $orderDirection));
+        return new CustomerCollection($this->customerRepository->getByFilter());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreCustomerRequest $request): CustomerResource
     {
         return new CustomerResource($this->customerRepository->create(CustomerDto::fromRequest($request)));
     }
@@ -43,7 +47,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(int $id): CustomerResource
     {
         return new CustomerResource($this->customerRepository->getById($id));
     }
@@ -51,18 +55,18 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer): CustomerResource
     {
-        return new CustomerResource($this->customerRepository->update($customer->id, CustomerDto::fromRequest($request)));
+        return new CustomerResource($this->customerRepository->update($customer?->id, CustomerDto::fromRequest($request)));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): CustomerResource
     {
-        $this->customerRepository->delete($id);
+        $result = $this->customerRepository->delete($id);
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return new CustomerResource($result);
     }
 }

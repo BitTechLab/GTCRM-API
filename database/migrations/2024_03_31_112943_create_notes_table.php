@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notes', function (Blueprint $table) {
-            $table->enum('type', ['customer', 'lead', 'contact', 'company', 'address', 'sale']);
-            $table->integer('reference_id');
+            $table->id();
 
+            $table->morphs('reference');
             $table->text('note');
+            $table->foreignId('user_id')->constrained();
 
             $table->timestamps();
 
             $table->softDeletes();
-
-            $table->index(['type', 'reference_id']);
         });
     }
 
