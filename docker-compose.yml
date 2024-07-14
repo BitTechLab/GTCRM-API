@@ -12,6 +12,7 @@ services:
     volumes:
       - ./:/var/www
       - ./.env:/var/www/.env
+      - /var/www/vendor
     environment:
       - APP_ENV=development
     networks:
@@ -42,7 +43,7 @@ services:
     container_name: gtcrm-node
     ports:
     - "3000:3000"
-    - "5173:5173"
+    - "5174:5173"
     restart: unless-stopped
     working_dir: /var/www
     volumes:

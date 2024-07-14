@@ -1,4 +1,10 @@
+# Pull the composer image
+FROM composer:latest as composer
+
 FROM php:8.3-fpm
+
+# Set working directory
+WORKDIR /var/www
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -22,19 +28,26 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
-# Set working directory
-WORKDIR /var/www
+# COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Remove default server definition
 RUN rm -rf /var/www/html
 
-# Copy existing application directory contents
-COPY . /var/www
+# Install Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www
+# Copy existing application directory contents
+COPY . .
+
+# Install application dependencies
+RUN composer install
+
+# Copy existing application directory contents
+RUN chown -R www-data:www-data /var/www
+
+# RUN chown -R www-data:www-data /path/to/your/project/storage /path/to/your/project/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 
 # Change current user to www
 USER www-data
