@@ -1,14 +1,16 @@
+ENV_FILE := .env
+ENV := $(shell cat $(ENV_FILE))
+$(foreach var, $(ENV), $(eval $(var)))
+
+PHP_CONTAINER = $(APP_NAME)-php
+
 # Run local server
 default:
-	php artisan serve
-
-# Run local ui
-ui:
-	npm run dev
+	docker compose up
 
 # Run laravel queue listener
 queue:
-	php artisan queue:listen
+	docker exec -it $(PHP_CONTAINER) php artisan queue:listen
 
 # Run PHPStan analyser
 stan:
@@ -19,12 +21,17 @@ force-rebuild:
 
 # Run database migration
 db-migrate:
-	 docker exec -it gtcrm-app php artisan migrate
+	 docker exec -it $(PHP_CONTAINER) php artisan migrate
 
 # Run database seed
 db-seed:
-	 docker exec -it gtcrm-app php artisan db:seed
+	 docker exec -it $(PHP_CONTAINER) php artisan db:seed
 
 # Run database dummy data seed
 db-seed-dummy:
-	 docker exec -it gtcrm-app php artisan db:seed-dummy
+	 docker exec -it $(PHP_CONTAINER) php artisan db:seed-dummy
+	 
+# Sync vendor directory from PHP container to the host
+vendor-sync:
+	# rm -rf vendor
+	docker cp $(PHP_CONTAINER):/var/www/vendor ./
