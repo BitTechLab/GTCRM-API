@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\DataTransferObjects\CustomerDto;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
-use App\Http\Resources\CustomerCollection;
+use App\Http\Resources\BaseCollection;
 use App\Http\Resources\CustomerResource;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -24,16 +22,9 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): CustomerCollection
+    public function index(Request $request): BaseCollection
     {
-        // test code. remove it as soon as you see it. you can blame webhkp for this(as he forgot to remove this line)
-        $this->customerRepository->create(CustomerDto::fromArray([
-            'name' => 'test name - ' . rand(),
-            'email' => rand() . '-test@name.com',
-            'status' => 'active',
-        ]));
-
-        return new CustomerCollection($this->customerRepository->getByFilter());
+        return new BaseCollection($this->customerRepository->getByFilter());
     }
 
     /**
