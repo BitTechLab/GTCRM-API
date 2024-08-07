@@ -15,15 +15,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(CustomerObserver::class)]
-class Customer extends Model
+class Customer extends BaseModel
 {
-    use HasFactory;
-    use SoftDeletes;
-    // use Searchable;
-    use Sortable;
-    use Loadable;
-    use Filterable;
-
     /**
      * The attributes that are mass assignable.
      *

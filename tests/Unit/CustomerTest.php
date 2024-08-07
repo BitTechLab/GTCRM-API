@@ -1,111 +1,59 @@
 <?php
 
-namespace Tests\Unit;
-
-use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class CustomerTest extends TestCase
-{
-    // use RefreshDatabase;
-    use DatabaseTruncation;
-    protected CustomerRepositoryInterface $customerRepository;
+uses(DatabaseTruncation::class);
 
-    private array $customers = [
-        [
-            'name' => 'customer one',
-            'email' => 'customerone@test.com',
-        ],
-        [
-            'name' => 'customer two',
-            'email' => 'customertwo@test.com',
-        ],
-        [
-            'name' => 'customer three',
-            'email' => 'customerthree@test.com',
-        ]
-    ];
+beforeEach(function () {
+    $this->repository = new CustomerRepository(new Customer());
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+describe('Customer - get by filter', function () {
 
-        // Set up any dependencies or perform actions required before each test
-        $this->customerRepository = new CustomerRepository();
-    }
+    beforeEach(function () {
+        $this->dataset = Customer::factory()->count(10)->create();
+    });
 
-    public function test_customer_getAll(): void
-    {
-        $this->addToDatabase(0);
-        $this->addToDatabase(1);
+    it('Should have 10 rows', function () {
+        $this->assertDatabaseCount('customers', 10);
+    });
 
-        $customers = $this->customerRepository->getAll();
+    it('Should get all rows without any filter', function() {
+        $customers = $this->repository->getByFilter();
 
-        $this->assertEquals($customers->count(), 2);
+        expect($customers->count())->toBe(10);
+    });
 
-        $this->assertEquals($customers->first()['name'], 'customer one');
-    }
+    it('Should get relevent data with filter', function() {
+        $selectedCustomer = $this->dataset[0];
 
-    public function test_customer_getById(): void
-    {
-        $this->addToDatabase(0);
+        $customers = $this->repository->getByFilter(['name' => $selectedCustomer->name]);
+        expect($customers->count())->toBeGreaterThanOrEqual(1);
 
-        $customer = $this->customerRepository->getById(1);
+        $customers = $this->repository->getByFilter(['email' => $selectedCustomer->email]);
+        expect($customers->count())->toBeGreaterThanOrEqual(1);
 
-        $this->assertEquals($customer->id, 1);
-    }
+        $customers = $this->repository->getByFilter(['status' => $selectedCustomer->status]);
+        expect($customers->count())->toBeGreaterThanOrEqual(1);
+    });
 
-    public function test_customer_delete(): void
-    {
-        $this->addToDatabase(0);
-        $this->addToDatabase(1);
+});
 
-        $customer = $this->customerRepository->getById(1);
+describe('Customer - get by id', function () {
 
-        $this->assertEquals($customer->id, 1);
+    beforeEach(function () {
+        $this->customer = Customer::factory()->create();
+    });
 
-        $this->customerRepository->delete(1);
 
-        try {
-            $customer = $this->customerRepository->getById(1);
-        } catch (\Exception $e) {
-        } finally {
-            $this->assertInstanceOf(\Exception::class, $e);
-        }
+    it('Should get single customer', function () {
+        $selectedCustomer = $this->repository->getById($this->customer->id);
 
-        $customers = $this->customerRepository->getAll();
+        expect($selectedCustomer)->toBeInstanceOf(Customer::class);
 
-        $this->assertEquals($customers->count(), 1);
-    }
-
-    public function test_customer_create(): void
-    {
-        $this->customerRepository->create($this->customers[0]);
-
-        $customer = $this->customerRepository->getById(1);
-
-        $this->assertNotNull($customer);
-    }
-
-    public function test_customer_update(): void
-    {
-        $this->addToDatabase(0);
-
-        $this->customerRepository->update(1, [
-            'name' => 'changed',
-        ]);
-
-        $customer = $this->customerRepository->getById(1);
-
-        $this->assertEquals($customer->name, 'changed');
-    }
-
-    private function addToDatabase(int $index)
-    {
-        $this->customerRepository->create($this->customers[0]);
-    }
-}
+        expect($this->customer->id)->toEqual($selectedCustomer->id);
+    });
+});

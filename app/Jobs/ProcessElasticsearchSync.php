@@ -26,6 +26,6 @@ class ProcessElasticsearchSync implements ShouldQueue
      */
     public function handle(): void
     {
-        dump($this->model);
+        // dump($this->model);
     }
 }

@@ -22,6 +22,7 @@ class LeadFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'source' => $this->faker->url(),
+            'customer_id' => $this->faker->randomDigitNotNull(),
             'status' => Arr::random(['new', 'active', 'pending', 'complete', 'rejected']),
         ];
     }

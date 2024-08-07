@@ -35,26 +35,25 @@ class SeedDummy extends Command
         $models = [
             \App\Models\Customer::class,
             \App\Models\Lead::class,
-            \App\Models\Address::class,
+            // \App\Models\Address::class,
         ];
 
 
-        $progress = progress(label: "{$this->signature} - Inserting dummy data", steps: count($models) * self::ITEM_PER_MODEL);
-        // $bar = $this->output->createProgressBar(count($models) * self::ITEM_PER_MODEL);
-        $progress->start();
+        // $progress = progress(label: "{$this->signature} - Inserting dummy data", steps: count($models) * self::ITEM_PER_MODEL);
+        // $progress->start();
 
         foreach ($models as $model) {
             try {
                 $model::factory()->times(self::ITEM_PER_MODEL)->create();
-                // $this->info("\nSuccess: seed dummy data for: {$model}");
+                $this->info("\nSuccess: seed dummy data for: {$model}");
             } catch (\Exception $e) {
                 $this->error("\nError: seed dummy data for: {$model} | with error message {$e->getMessage()}");
             }
 
-            $progress->advance(self::ITEM_PER_MODEL);
+            // $progress->advance(self::ITEM_PER_MODEL);
         }
 
-        $progress->finish();
+        // $progress->finish();
 
         $this->info("{$this->signature} - Processing complete\n");
     }

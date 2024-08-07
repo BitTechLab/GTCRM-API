@@ -1,5 +1,4 @@
 # Docker compose for development
-# version: '3.8'
 
 services:
   gtcrm-php:

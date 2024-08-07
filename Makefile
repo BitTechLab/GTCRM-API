@@ -35,3 +35,14 @@ db-seed-dummy:
 vendor-sync:
 	# rm -rf vendor
 	docker cp $(PHP_CONTAINER):/var/www/vendor ./
+
+access-php:
+	docker exec -it $(PHP_CONTAINER) sh
+
+test:
+	# docker exec -it $(PHP_CONTAINER) php artisan test --env=testing
+	docker exec -it $(PHP_CONTAINER) php artisan test
+
+coverage:
+	docker exec -it $(PHP_CONTAINER) php artisan test --coverage
+
