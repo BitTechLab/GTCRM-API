@@ -22,7 +22,7 @@ class CustomerDto
         return new static(
             name: $request->validated('name'),
             email: $request->validated('email'),
-            status: $request->validated('status'),
+            status: $request->validated('status', 'active'),
         );
     }
 
@@ -31,7 +31,7 @@ class CustomerDto
         return new static(
             name: $data['name'],
             email: $data['email'],
-            status: $data['status'],
+            status: $data['status'] ?? 'active',
         );
     }
 }

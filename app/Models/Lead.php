@@ -2,14 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Database\Sortable;
-use App\Traits\Database\Filterable;
-use App\Traits\Database\Loadable;
 
 class Lead extends BaseModel
 {
@@ -18,12 +11,13 @@ class Lead extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'status'];
-    protected $sortable = ['id', 'name', 'email', 'status'];
+    protected $fillable = ['name', 'email', 'customer_id', 'source', 'status'];
+    protected $sortable = ['id', 'name', 'email', 'customer_id', 'status'];
 
     protected array $filterable = [
         \App\Filters\Query\ByName::class,
         \App\Filters\Query\ByEmail::class,
+        \App\Filters\Query\ByCustomer::class,
         \App\Filters\Query\ByStatus::class,
         \App\Filters\Query\WithTrashed::class,
     ];

@@ -16,10 +16,10 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('email');
-            $table->string('source');
+            $table->string('source')->nullable();
             $table->foreignId('customer_id')->nullable()->constrained();
             $table->enum('status', ['new', 'active', 'pending', 'complete', 'rejected'])
-                ->default('active')
+                ->default('new')
                 ->index();
 
             $table->timestamps();
