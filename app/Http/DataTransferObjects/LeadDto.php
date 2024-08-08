@@ -11,8 +11,8 @@ class LeadDto
     public function __construct(
         readonly public string $name,
         readonly public string $email,
-        readonly public string $source,
-        readonly public string $customerId,
+        readonly public ?string $source,
+        readonly public ?string $customerId,
         readonly public string $status,
     ) {
     }
@@ -24,7 +24,7 @@ class LeadDto
             email: $request->validated('email'),
             source: $request->validated('source'),
             customerId: $request->validated('customer_id'),
-            status: $request->validated('status'),
+            status: $request->validated('status', 'new'),
         );
     }
 
@@ -33,9 +33,9 @@ class LeadDto
         return new static(
             name: $data['name'],
             email: $data['email'],
-            source: $data['source'],
-            customerId: $data['customer_id'],
-            status: $data['status'],
+            source: $data['source'] ?? null,
+            customerId: $data['customer_id'] ?? null,
+            status: $data['status'] ?? 'new',
         );
     }
 }

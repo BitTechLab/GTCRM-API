@@ -3,16 +3,9 @@
 namespace App\Models;
 
 use App\Observers\CustomerObserver;
-use App\Search\Searchable;
-use App\Traits\Database\Sortable;
-use App\Traits\Database\Filterable;
-use App\Traits\Database\Loadable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(CustomerObserver::class)]
 class Customer extends BaseModel

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\DataTransferObjects\LeadDto;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Repositories\LeadRepository;
@@ -58,5 +59,58 @@ describe('Lead - get by id', function () {
         expect($selectedLead)->toBeInstanceOf(Lead::class);
 
         expect($this->lead->id)->toEqual($selectedLead->id);
+    });
+});
+
+describe('Lead - create', function() {
+    it('Should create lead with proper default values', function() {
+        $lead = $this->repository->create(LeadDto::fromArray([
+            'name' => 'first lead',
+            'email' => 'first_lead@gtmux.com',
+        ]));
+
+        $this->assertModelExists($lead);
+
+        expect($lead)->toBeInstanceOf(Lead::class);
+        expect($lead->id)->not()->toBeNull();
+        expect($lead->name)->toBe('first lead');
+        expect($lead->email)->toBe('first_lead@gtmux.com');
+        expect($lead->customer_id)->toBeNull();
+        expect($lead->source)->toBeNull();
+        expect($lead->status)->toBe('new');
+    });
+});
+
+describe('Lead - update', function() {
+    it('Should update lead properly', function() {
+        $createdLead = Lead::factory()->create();
+
+        $updatedLead = $this->repository->update($createdLead->id, LeadDto::fromArray([
+            'name' => 'first lead',
+            'email' => 'first_lead@gtmux.com',
+            'status' => 'active',
+        ]));
+
+        $this->assertModelExists($updatedLead);
+
+        expect($updatedLead)->toBeInstanceOf(Lead::class);
+        expect($updatedLead->id)->not()->toBeNull();
+        expect($updatedLead->id)->toBe($createdLead->id);
+        expect($updatedLead->name)->toBe('first lead');
+        expect($updatedLead->email)->toBe('first_lead@gtmux.com');
+        expect($updatedLead->status)->toBe('active');
+    });
+});
+
+describe("Lead - delete", function() {
+    it('Should delete lead with soft delete', function() {
+        $createdLead = Lead::factory()->create();
+
+        $deletedLead = $this->repository->delete($createdLead->id);
+
+        $this->assertSoftDeleted($deletedLead);
+
+        expect($deletedLead)->toBeInstanceOf(Lead::class);
+        expect($deletedLead->id)->toBe($createdLead->id);
     });
 });

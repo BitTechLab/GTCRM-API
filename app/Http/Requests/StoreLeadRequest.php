@@ -4,14 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLeadRequest extends FormRequest
-{
+class StoreLeadRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return false;
+    public function authorize(): bool {
+        return true;
     }
 
     /**
@@ -19,14 +17,13 @@ class StoreLeadRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'source' => 'string|max:255',
-            'customer_id' => 'int',
-            'status' => 'required|in:active,pending,suspended',
+            'customer_id' => 'int|exists:customers,id',
+            'status' => 'in:new,active,pending,complete,rejected',
         ];
     }
 }

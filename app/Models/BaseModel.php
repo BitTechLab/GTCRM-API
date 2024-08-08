@@ -8,8 +8,6 @@ use App\Traits\Database\Filterable;
 use App\Traits\Database\Loadable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BaseModel extends Model
@@ -27,13 +25,4 @@ class BaseModel extends Model
 
         $this->setPerPage(config('repository.defaults.limit'));
     }
-
-    // protected $fillable = [];
-
-    // protected $sortable = [];
-
-    // protected array $filterable = [];
-
-    // protected array $loadable = [];
-
 }

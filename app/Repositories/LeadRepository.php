@@ -32,6 +32,8 @@ class LeadRepository implements LeadRepositoryInterface, SearchRepositoryInterfa
         return $this->model->create([
             'name' => $data->name,
             'email' => $data->email,
+            'customer_id' => $data->customerId,
+            'source' => $data->source,
             'status' => $data->status,
         ]);
     }
@@ -40,6 +42,8 @@ class LeadRepository implements LeadRepositoryInterface, SearchRepositoryInterfa
         return tap($this->model->find($id))->update([
             'name' => $data->name,
             'email' => $data->email,
+            'customer_id' => $data->customerId,
+            'source' => $data->source,
             'status' => $data->status,
         ]);
     }
